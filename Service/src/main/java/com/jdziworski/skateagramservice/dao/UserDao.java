@@ -1,6 +1,7 @@
 package com.jdziworski.skateagramservice.dao;
 
 import com.jdziworski.skateagramservice.domain.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ import java.util.List;
 public interface UserDao {
     List<User> getUsers();
     User getUserForId(String personId);
+    User save(User user);
 }

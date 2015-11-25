@@ -21,4 +21,9 @@ public class PostDaoImpl extends BasicDaoImpl implements PostDao {
     public List<Post> getPostForUser(String userId) {
         return jdbcTemplate.query("SELECT * FROM POSTS where idpublisher = ?",new PostRowMapper(),userId);
     }
+
+    @Override
+    public List<Post> getFriendsPostsForUser(String userId) {
+        return jdbcTemplate.query("SELECT * FROM POSTS where idpublisher = ?",new PostRowMapper(),userId);
+    }
 }

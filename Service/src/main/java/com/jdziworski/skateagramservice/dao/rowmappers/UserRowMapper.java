@@ -1,6 +1,5 @@
 package com.jdziworski.skateagramservice.dao.rowmappers;
 
-import com.jdziworski.skateagramservice.domain.Trick;
 import com.jdziworski.skateagramservice.domain.User;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,7 +14,7 @@ public class UserRowMapper implements RowMapper<User> {
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
         User user = new User();
-        user.setNick(rs.getString("nick"));
+        user.setUsername(rs.getString("nick"));
         return user;
     }
 }

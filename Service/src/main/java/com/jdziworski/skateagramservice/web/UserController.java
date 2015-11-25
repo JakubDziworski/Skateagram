@@ -6,23 +6,27 @@ import com.jdziworski.skateagramservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Method;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by kuba on 14.11.2015.
  */
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UserController {
 
     @Autowired
     UserService userService;
+
+    @RequestMapping(method = RequestMethod.POST)
+    String createUser(@RequestBody @Valid User user) {
+        userService.save(user);
+        return "dodano usera";
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     HttpEntity<List<User>> getUsers() {
@@ -42,6 +46,6 @@ public class UserController {
     }
 
     private Link linkForUser(User user) {
-        return linkTo(methodOn(UserController.class).getUserForId(user.getNick())).withSelfRel();
+        return linkTo(methodOn(UserController.class).getUserForId(user.getUsername())).withSelfRel();
     }
 }

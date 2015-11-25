@@ -12,4 +12,5 @@ import java.util.List;
 public interface PostDao {
     Post getPostForId(String id);
     List<Post> getPostForUser(String userId);
+    List<Post> getFriendsPostsForUser(String userId);
 }

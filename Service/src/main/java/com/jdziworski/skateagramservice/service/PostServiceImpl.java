@@ -20,4 +20,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPostsForUser(String userId) {
         return postDao.getPostForUser(userId);
     }
+
+    @Override
+    public List<Post> getFriendsPostsForUser(String userId) {
+        return postDao.getFriendsPostsForUser(userId);
+    }
 }

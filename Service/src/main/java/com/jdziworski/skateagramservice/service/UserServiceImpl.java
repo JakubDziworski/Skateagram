@@ -1,8 +1,6 @@
 package com.jdziworski.skateagramservice.service;
 
-import com.jdziworski.skateagramservice.dao.PostDao;
 import com.jdziworski.skateagramservice.dao.UserDao;
-import com.jdziworski.skateagramservice.domain.Post;
 import com.jdziworski.skateagramservice.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
+
+    @Override
+    public User save(User user) {
+        return userDao.save(user);
+    }
 
     @Override
     public List<User> getUsers() {

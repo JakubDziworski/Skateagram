@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.jdziworski.skateagramservice.conf"/>
+    <security:http entry-point-ref="authenticationEntryPoint" use-expressions="true" create-session="stateless">
+        <security:http-basic/>
+        <security:intercept-url pattern="/users" method="POST" access="permitAll"/>
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
+        <security:csrf disabled="true"/>
+        <security:form-login
+                authentication-success-handler-ref="mySuccessHandler"
+                authentication-failure-handler-ref="myFailureHandler"
+                />
+        <security:logout />
+    </security:http>
+
+    <bean id="mySuccessHandler"
+                class="com.jdziworski.skateagramservice.conf.MySavedRequestAwareAuthenticationSuccessHandler"/>
+    <bean id="myFailureHandler" class=
+            "org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost/skateagram"/>
+        <property name="username" value="root"/>
+        <property name="password" value="lolqbabolq"/>
+    </bean>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:jdbc-user-service data-source-ref="dataSource"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>

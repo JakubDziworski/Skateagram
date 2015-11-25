@@ -10,4 +10,5 @@ import java.util.List;
 public interface PostService {
     Post getPostForId(String id);
     List<Post> getPostsForUser(String userId);
+    List<Post> getFriendsPostsForUser(String userId);
 }
