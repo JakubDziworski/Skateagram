@@ -20,7 +20,7 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
 
     @Override
     public User getUserForId(String personId) {
-        return jdbcTemplate.queryForObject("SELECT * from users where users.nick = ?", new UserRowMapper(), personId);
+        return jdbcTemplate.queryForObject("SELECT * from users where users.username = ?", new UserRowMapper(), personId);
     }
 
     @Override

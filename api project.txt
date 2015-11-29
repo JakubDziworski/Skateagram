@@ -1,0 +1,7 @@
+/**			401 - nie wyslano nagłówka z autoryzacja
+
+/users POST 201 - sukces. links {self - utworzony user}
+			409 - juz istnieje w bazie (duplikat)
+
+/users/{username} 404 - nie ma takiego
+

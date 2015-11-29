@@ -3,13 +3,19 @@ package com.jdziworski.skateagramservice.domain;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by kuba on 13.10.2015.
  */
 @Entity
 public class User extends ResourceSupport {
+    @NotNull
+    @Size(min=3,max=30)
     private String username;
+    @NotNull
+    @Size(min=3,max=30)
     private String password;
     private boolean enabled;
 
