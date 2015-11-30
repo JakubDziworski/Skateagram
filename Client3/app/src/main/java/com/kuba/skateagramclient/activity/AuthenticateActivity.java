@@ -1,14 +1,11 @@
 package com.kuba.skateagramclient.activity;
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.kuba.skateagramclient.R;
@@ -18,15 +15,13 @@ import com.kuba.skateagramclient.managers.RequestBuilder;
 import com.kuba.skateagramclient.managers.SharedPrefsManager;
 import com.kuba.skateagramclient.managers.ToastManager;
 import com.kuba.skateagramclient.web.Urls;
+import com.kuba.skateagramclient.web.task.AuthenticateTask;
 
-import org.apache.http.client.HttpResponseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
+
+import java.util.concurrent.Executor;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,11 +36,16 @@ public class AuthenticateActivity extends RoboActionBarActivity {
     RequestBuilder requestBuilder;
     @Inject
     ToastManager toastManager;
+    private Executor executor;
 
-    private class CreateUserTask extends AsyncTask<Void, Void, ResponseEntity<?>> {
+    private class CreateUserTask extends AuthenticateTask {
+
+        public CreateUserTask(Credentials credentials) {
+            super(credentials);
+        }
+
         @Override
-        protected ResponseEntity<?> doInBackground(Void... params) {
-            User user = createUserFromEditTexts();
+        protected ResponseEntity<?> onStart(User user) {
             sharedPrefsManager.saveCredentials(user.getUsername(),user.getPassword());
             return requestBuilder.postToUrlWithoutCredentials(Urls.USERS,user,Object.class);
         }
@@ -56,10 +56,11 @@ public class AuthenticateActivity extends RoboActionBarActivity {
                 toastManager.showToast("unknown error");
             } else if (response.getStatusCode() == HttpStatus.CONFLICT) {
                 toastManager.showToast("user already exists:");
+                toastManager.showToast("Invalid form:" + response.getBody());
             } else if (response.getStatusCode() == HttpStatus.CREATED) {
                 toastManager.showToast("user registered:" + response);
+                goToWall();
             } else if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                toastManager.showToast("Invalid form:" + response.getBody());
             }
             else {
                 toastManager.showToast("error:" + response.getStatusCode());
@@ -67,12 +68,16 @@ public class AuthenticateActivity extends RoboActionBarActivity {
         }
     }
 
-    private class LoginUserRequest extends AsyncTask<Void, Void, ResponseEntity<?>> {
+    private class LoginTask extends AuthenticateTask {
+
+        public LoginTask(Credentials credentials) {
+            super(credentials);
+        }
+
         @Override
-        protected ResponseEntity<?> doInBackground(Void... params) {
-            User user = createUserFromEditTexts();
+        protected ResponseEntity<?> onStart(User user) {
             sharedPrefsManager.saveCredentials(user.getUsername(),user.getPassword());
-            return requestBuilder.getForUrl(Urls.USERS + "/" +user.getUsername(),User.class);
+            return requestBuilder.getForUrl(Urls.USERS + "/" + user.getUsername(), User.class);
         }
 
         @Override
@@ -81,6 +86,7 @@ public class AuthenticateActivity extends RoboActionBarActivity {
                 toastManager.showToast("unknown error");
             } else if(user.getStatusCode() == HttpStatus.OK) {
                 toastManager.showToast("succesfully logged in");
+                goToWall();
             } else {
                 toastManager.showToast("Error " + user.getStatusCode());
             }
@@ -101,18 +107,16 @@ public class AuthenticateActivity extends RoboActionBarActivity {
 
     @OnClick(R.id.registerBtn)
     void onRegisterBtnClick() {
-        final String username = loginText.getText().toString();
-        final String password = passText.getText().toString();
-        final CreateUserTask createUserTask = new CreateUserTask();
+        Intent intent = new Intent(this,SubmitPostActivity.class);
+        startActivity(intent);
+        final CreateUserTask createUserTask = new CreateUserTask(buildCredentialsFromEditTexts());
         createUserTask.execute();
     }
 
     @OnClick(R.id.loginBtn)
     void onLoginBtnClick() {
-        final String username = loginText.getText().toString();
-        final String password = passText.getText().toString();
-        final LoginUserRequest loginUserRequest = new LoginUserRequest();
-        loginUserRequest.execute();
+        final LoginTask loginTask = new LoginTask(buildCredentialsFromEditTexts());
+        loginTask.execute();
     }
 
     @Override
@@ -138,9 +142,15 @@ public class AuthenticateActivity extends RoboActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private User createUserFromEditTexts() {
+    private Credentials buildCredentialsFromEditTexts() {
         final String username = loginText.getText().toString();
         final String password = passText.getText().toString();
-        return new User(username,password);
+        return new Credentials(username,password);
+    }
+
+
+    private void goToWall() {
+        Intent intent = new Intent(this,WallActivity.class);
+        startActivity(intent);
     }
 }

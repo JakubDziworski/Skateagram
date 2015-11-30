@@ -18,5 +18,6 @@ public class Urls {
     public final static String RESOURCES = ROOT + "/resources";
     public final static String USERS = ROOT + "/users";
     public final static String POSTS = ROOT + "/posts";
+    public final static String WALL = ROOT + "/posts/wall";
     public final static String UPLOAD = ROOT + "/upload";
 }

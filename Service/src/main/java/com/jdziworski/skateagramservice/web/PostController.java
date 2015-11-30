@@ -8,6 +8,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -36,10 +38,8 @@ public class PostController {
         return new HttpEntity<>(post);
     }
 
-    @RequestMapping("/{userId}")
-    HttpEntity<Post> getFriendsPostsForUser(@PathVariable String postId) {
-        Post post = postService.getPostForId(postId);
-        post.add(linkTo(methodOn(PostController.class).getPostForId(postId)).withSelfRel());
-        return new HttpEntity<>(post);
+    @RequestMapping("wall/{userId}")
+    HttpEntity<List<Post>> getFriendsPostsForUser(@PathVariable String userId) {
+        return new HttpEntity<>(postService.getFriendsPostsForUser(userId));
     }
 }

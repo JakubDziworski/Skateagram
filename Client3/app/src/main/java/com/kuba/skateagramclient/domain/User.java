@@ -11,7 +11,11 @@ public class User  extends  ResourceSupport{
     private String password;
     private boolean enabled;
 
-    public User() {
+    private User() {
+    }
+
+    public User(Credentials credentials) {
+        this(credentials.getPassword(),credentials.getUsername());
     }
 
     public User(String username, String password) {

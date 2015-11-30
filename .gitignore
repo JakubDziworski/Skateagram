@@ -59,3 +59,4 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/Client3/app/src/main/res/values/application_confs.xml
