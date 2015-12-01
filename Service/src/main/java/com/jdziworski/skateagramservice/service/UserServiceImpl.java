@@ -29,4 +29,14 @@ public class UserServiceImpl implements UserService {
     public User getUserForId(String personId) {
         return userDao.getUserForId(personId);
     }
+
+    @Override
+    public void setUserFollowed(String follower, String followed) {
+        userDao.setUserFollowed(follower, followed);
+    }
+
+    @Override
+    public List<User> getNotFollowedUsers(String userId) {
+        return userDao.findNotFollowed(userId);
+    }
 }

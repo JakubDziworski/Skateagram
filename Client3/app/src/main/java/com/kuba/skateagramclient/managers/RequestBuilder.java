@@ -1,7 +1,6 @@
 package com.kuba.skateagramclient.managers;
 
 import com.google.inject.Singleton;
-import com.kuba.skateagramclient.managers.SharedPrefsManager;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -51,7 +48,7 @@ public class RequestBuilder {
     }
 
     public ResponseEntity<?> postToUrl(String url,Object object,Class<?> type) {
-        HttpEntity<?> httpEntity = getAuthorizationEntity();
+        HttpEntity<?> httpEntity = getAuthorizationEntity(object);
         try {
             return restTemplate.exchange(url, HttpMethod.POST,httpEntity,type);
         } catch (HttpStatusCodeException e) {
@@ -62,20 +59,21 @@ public class RequestBuilder {
     }
 
     public ResponseEntity<?>getForUrl(String url,Class<?> type) {
-        HttpEntity<?> httpEntity = getAuthorizationEntity();
+        HttpEntity<?> httpEntity = getAuthorizationEntity(null);
         try {
             return restTemplate.exchange(url, HttpMethod.GET,httpEntity,type);
         } catch (HttpStatusCodeException e) {
             return new ResponseEntity<>(e.getStatusCode());
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    private HttpEntity<?> getAuthorizationEntity() {
+    private HttpEntity<?> getAuthorizationEntity(Object object) {
         String creds = sharedPrefsManager.getUserCred();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + creds);
-        return new HttpEntity<>(headers);
+        return new HttpEntity<>(object,headers);
     }
 }

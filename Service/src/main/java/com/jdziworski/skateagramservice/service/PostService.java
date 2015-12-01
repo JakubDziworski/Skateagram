@@ -11,4 +11,5 @@ public interface PostService {
     Post getPostForId(String id);
     List<Post> getPostsForUser(String userId);
     List<Post> getFriendsPostsForUser(String userId);
+    void save(Post post);
 }

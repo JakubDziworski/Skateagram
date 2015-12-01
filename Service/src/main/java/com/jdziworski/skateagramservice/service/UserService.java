@@ -16,4 +16,6 @@ public interface UserService {
     User save(User user);
     List<User> getUsers();
     User getUserForId(String personId);
+    void setUserFollowed(String follower, String followed);
+    List<User> getNotFollowedUsers(String name);
 }

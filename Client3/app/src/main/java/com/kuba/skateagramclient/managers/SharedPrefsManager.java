@@ -17,26 +17,32 @@ import javax.inject.Inject;
  */
 @Singleton
 public class SharedPrefsManager {
+    private final String USERNAME_KEY = "username";
     private final String CREDENTIALS_SHARED_PREFS_KEY = "user_credentials";
     private final String SHARED_PREFS_NAME = "shared_preferences";
     private SharedPreferences sharedPreferences;
-    private boolean isUserAuthorized;
 
     @Inject
     public SharedPrefsManager(Context context) {
         this.sharedPreferences = context.getSharedPreferences(SHARED_PREFS_NAME,Context.MODE_PRIVATE);
-        isUserAuthorized = sharedPreferences.contains(CREDENTIALS_SHARED_PREFS_KEY);
     }
 
     public String getUserCred() {
         return sharedPreferences.getString(CREDENTIALS_SHARED_PREFS_KEY,null);
     }
 
+    public String getUserName() {
+        return sharedPreferences.getString(USERNAME_KEY,null);
+    }
+
     public String saveCredentials(String userName,String password) {
         String baseAuthEncodedCreds = encode(userName,password);
-        sharedPreferences.edit().putString(CREDENTIALS_SHARED_PREFS_KEY,baseAuthEncodedCreds).commit();
+        sharedPreferences.edit()
+                .putString(CREDENTIALS_SHARED_PREFS_KEY,baseAuthEncodedCreds)
+                .putString(USERNAME_KEY,userName).commit();
         return baseAuthEncodedCreds;
     }
+
 
     private String encode(String userName,String password) {
         String plainCreds = userName+":"+password;

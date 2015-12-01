@@ -16,10 +16,10 @@ public class PostRowMapper implements RowMapper<Post> {
     public Post mapRow(ResultSet rs, int rowNum) throws SQLException {
         Post post = new Post();
         post.setDate(rs.getDate("date"));
-        post.setUserId(rs.getInt("idpublisher"));
-        post.setVideoId(rs.getInt("idvideo"));
-        post.setSpotId(rs.getInt("idspot"));
-        post.setTrickId(rs.getInt("idtrick"));
+        post.setUserId(rs.getString("idpublisher"));
+        post.setVideoId(rs.getString("idvideo"));
+        post.setSpotId(rs.getString("idspot"));
+        post.setTrickId(rs.getString("idtrick"));
         return post;
     }
 }

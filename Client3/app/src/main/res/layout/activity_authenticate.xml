@@ -6,6 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#ff47c0ef"
     tools:context="com.kuba.skateagramclient.activity.AuthenticateActivity">
 
     <LinearLayout
@@ -17,8 +18,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="Authenticate" />
+            android:layout_marginBottom="5dp"
+            android:textSize="25dp"
+            android:text="Welcome to Skateagram" />
 
         <EditText
             android:id="@+id/loginText"
@@ -32,17 +34,9 @@
             android:layout_height="wrap_content"
             android:hint="Password" />
 
-
-        <TextView
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:text="errorText"
-            android:textColor="#FF1111"/>
         <LinearLayout
             android:gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

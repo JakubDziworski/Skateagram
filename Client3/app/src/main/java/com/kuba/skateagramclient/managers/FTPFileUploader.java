@@ -24,19 +24,18 @@ public class FTPFileUploader {
 
     @Inject
     Context context;
+    @Inject
+    SharedPrefsManager sharedPrefsManager;
     FTPClient client;
 
     public interface UploadListener {
         void progressChanged(int percentage);
         void start();
         void failure();
-        void success();
+        void success(String remoteUrl);
     }
 
     public void connect(UploadListener uploadListener) throws IOException {
-        if(client != null && client.isConnected() && client.isAvailable()) {
-            Log.d(this.getClass().getName(), "Client already connected");
-        }
         Log.v(this.getClass().getName(),"Connecting");
         client = new FTPClient();
         client.setBufferSize(102400);
@@ -74,15 +73,24 @@ public class FTPFileUploader {
                 }
             };
             Log.d(this.getClass().getName(), "About to start uploading file");
-            client.storeFile("/htdocs/vidlo2.mp4", countingInputStream);
+            final String fullFileName = buildFileDestinationName(file.getName());
+            client.storeFile(fullFileName, countingInputStream);
             Log.d(this.getClass().getName(), "File uploaded");
             fis.close();
             client.logout();
-            uploadListener.success();
-        } catch (IOException e) {
+            uploadListener.success(context.getResources().getString(R.string.authenticatedFTP) + "/" + fullFileName);
+        } catch (Exception e) {
             e.printStackTrace();
             Log.v(this.getClass().getName(),"Error " + e.getMessage());
             uploadListener.failure();
         }
+    }
+
+    String buildFileDestinationName(String fileName) {
+        final String videosRoot = context.getResources().getString(R.string.http_domain_path);
+        final String username = sharedPrefsManager.getUserName();
+        final String complete = "htdocs/" + /*username + "/" +*/ fileName;
+        Log.v(this.getClass().getName(),"destination file is " + complete);
+        return complete;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,18 @@ public class UserController {
         if(user == null) return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         user.add(linkForUser(user));
         return new ResponseEntity<User>(user,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/unfollowed", method = RequestMethod.GET)
+    HttpEntity<List<User>> findUnfollowedUsers(Principal principal) {
+        return new HttpEntity<>(userService.getNotFollowedUsers(principal.getName()));
+    }
+
+    @RequestMapping(value = "/{personId}/follow", method = RequestMethod.POST)
+    HttpEntity<Void> getUserForId(@PathVariable String personId,Principal principal) {
+        final String follower = principal.getName();
+        userService.setUserFollowed(follower, personId);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
     private Link linkForUser(User user) {

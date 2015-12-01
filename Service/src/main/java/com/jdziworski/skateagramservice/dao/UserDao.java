@@ -12,4 +12,6 @@ public interface UserDao {
     List<User> getUsers();
     User getUserForId(String personId);
     User save(User user);
+    void setUserFollowed(String follower, String followed);
+    List<User> findNotFollowed(String userId);
 }

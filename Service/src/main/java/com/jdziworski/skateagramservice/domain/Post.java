@@ -9,19 +9,19 @@ import java.util.Date;
  */
 public class Post extends ResourceSupport {
     private Date date;
-    private int userId;
-    private int spotId;
-    private int trickId;
-    private int videoId;
+    private String userId;
+    private String spotId;
+    private String trickId;
+    private String videoId;
 
     public Post() {
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -33,27 +33,27 @@ public class Post extends ResourceSupport {
         this.date = date;
     }
 
-    public int getSpotId() {
+    public String getSpotId() {
         return spotId;
     }
 
-    public void setSpotId(int spotId) {
+    public void setSpotId(String spotId) {
         this.spotId = spotId;
     }
 
-    public int getTrickId() {
+    public String getTrickId() {
         return trickId;
     }
 
-    public void setTrickId(int trickId) {
+    public void setTrickId(String trickId) {
         this.trickId = trickId;
     }
 
-    public int getVideoId() {
+    public String getVideoId() {
         return videoId;
     }
 
-    public void setVideoId(int videoId) {
+    public void setVideoId(String videoId) {
         this.videoId = videoId;
     }
 }

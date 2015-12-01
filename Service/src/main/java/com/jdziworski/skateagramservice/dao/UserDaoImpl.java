@@ -29,4 +29,16 @@ public class UserDaoImpl extends BasicDaoImpl implements UserDao {
         jdbcTemplate.update("INSERT INTO authorities(username,authority) VALUES(?,'ROLE_USER')", user.getUsername());
         return user;
     }
+
+    @Override
+    public void setUserFollowed(String follower, String followed) {
+        jdbcTemplate.update("INSERT INTO friends VALUES(?,?)", follower,followed);
+    }
+
+    @Override
+    public List<User> findNotFollowed(String userId) {
+        return jdbcTemplate.query("SELECT * FROM users " +
+                "where NOT(username = ANY(select followed from friends where follower = ?)) " +
+                "AND (username != ?); ", new UserRowMapper(),userId,userId);
+    }
 }

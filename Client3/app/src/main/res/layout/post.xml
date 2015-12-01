@@ -1,54 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.kuba.skateagramclient.view.PostView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/postItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/postItem"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light">
+        android:background="#ff36a3c5"
+        android:padding="10dp">
 
         <TextView
-            android:textSize="15dp"
+            android:id="@+id/postAuthorNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:text="Kuba Dziworski"
-            android:layout_alignParentLeft="true"/>
+            android:textSize="15dp" />
 
         <TextView
-            android:textSize="15dp"
+            android:id="@+id/postDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="25.12.2015" />
+            android:text="25.12.2015"
+            android:textSize="15dp" />
     </RelativeLayout>
-        <VideoView
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="360 flip"/>
+        android:background="#ff41ccef"
+        android:padding="10dp">
 
         <TextView
+            android:id="@+id/postTrickNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="360 flip" />
+
+        <TextView
+            android:id="@+id/postSpotNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Witos"/>
-        
-        </RelativeLayout>
-    <ListView
-        android:id="@+id/commentsList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-     </ListView>
+            android:text="Witos" />
 
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:background="#ff47c0ef">
+
+        <VideoView
+            android:layout_gravity="center"
+            android:id="@+id/postVideoView"
+            android:layout_width="250dp"
+            android:layout_height="250dp" />
+
+        <FrameLayout
+            android:id="@+id/postVideoViewProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff47c0ef">
+
+            <ProgressBar
+                style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </FrameLayout>
 </com.kuba.skateagramclient.view.PostView>

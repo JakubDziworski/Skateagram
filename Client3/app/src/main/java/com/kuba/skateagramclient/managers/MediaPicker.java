@@ -29,9 +29,13 @@ public class MediaPicker {
         activity.startActivityForResult(intent, PICK_VIDEO_REQUEST_CODE);
     }
 
+    public boolean isActivityResultForMediaPicker(int requestCode, int result, Intent data) {
+        if(requestCode != PICK_VIDEO_REQUEST_CODE) return false;
+        if(result != Activity.RESULT_OK) return false;
+        return true;
+    }
+
     public void handleOnActivityResults(int requestCode, int resultCode, Intent data)  {
-        if(requestCode != PICK_VIDEO_REQUEST_CODE) return;
-        if(resultCode != Activity.RESULT_OK) return;
         Uri selectedImage = data.getData();
         String[] filePathColumn = {MediaStore.Video.Media.DATA};
 
