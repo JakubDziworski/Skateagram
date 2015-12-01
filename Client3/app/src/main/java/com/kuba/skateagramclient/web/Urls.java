@@ -14,7 +14,8 @@ import java.util.concurrent.ExecutionException;
  * Created by kuba on 28.11.2015.
  */
 public class Urls {
-    public final static String ROOT = "http://10.7.78.199:8080/skateagram";
+//    public final static String ROOT = "http://10.7.78.199:8080/skateagram";
+public final static String ROOT = "http://192.168.43.75:8080/skateagram";
     public final static String RESOURCES = ROOT + "/resources";
     public final static String USERS = ROOT + "/users";
     public final static String UNFOLLOWED = USERS + "/unfollowed";

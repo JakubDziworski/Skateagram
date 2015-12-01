@@ -70,7 +70,7 @@ public class AuthenticateActivity extends BaseActivity {
         return false;
     }
 
-    
+
 
     private Credentials buildCredentialsFromEditTexts() {
         final String username = loginText.getText().toString();

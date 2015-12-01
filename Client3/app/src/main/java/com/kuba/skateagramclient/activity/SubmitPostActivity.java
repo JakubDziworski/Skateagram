@@ -171,7 +171,7 @@ public class SubmitPostActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(!mediaPicker.isActivityResultForMediaPicker(requestCode,requestCode,data)) {
+        if(!mediaPicker.isActivityResultForMediaPicker(requestCode,resultCode,data)) {
             return;
         }
         mediaPicker.handleOnActivityResults(requestCode, resultCode, data);
