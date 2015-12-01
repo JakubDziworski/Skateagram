@@ -26,11 +26,13 @@
     <bean id="myFailureHandler" class=
             "org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
 
+    <context:property-placeholder location="classpath*:com/jdziworski/skateagramservice/conf/config.properties"/>
+
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost/skateagram"/>
-        <property name="username" value="root"/>
-        <property name="password" value="lolqbabolq"/>
+        <property name="url" value="${MYSQL.URL}"/>
+        <property name="username" value="${MYSQL.USERNAME}"/>
+        <property name="password" value="${MYSQL.PASSWORD}"/>
     </bean>
 
     <security:authentication-manager>
